@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 @given("I'm on gmail login page")
 def step_impl(context):
-    context.browser.get('https://accounts.google.com')
+    context.browser.open_home_page()
 
 @given('User is logged to gmail')
 def step_impl(context):
@@ -23,111 +23,51 @@ def step_impl(context):
 
 @when('I enter proper email')
 def step_impl(context):
-    context.browser.find_element_by_css_selector(
-        '#identifierId'
-    ).send_keys('iokipearsontest@gmail.com')
-    WebDriverWait(context.browser, 20).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '#identifierNext'
-        ))
-    ).click()
+   context.login.enter_email()
 
-@when('I enter "{type}" password')
-def step_impl(context, type):
-    input_password = WebDriverWait(context.browser, 20).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '[type="password"]'
-        ))
-    )
-    if type == "proper":
-        input_password.send_keys('ioki12qw')
-    else:
-        input_password.send_keys('blablabla')
+@when('I enter "{variant}" password')
+def step_impl(context, variant):
+    context.login.enter_password(variant)
 
 @when('I click next button') 
 def step_impl(context):
-    WebDriverWait(context.browser, 10).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '#passwordNext'
-        ))
-    ).click()
+    context.login.next_btn_pass.click()
 
 @when('I go to e-mails')
 def step_impl(context):
-    WebDriverWait(context.browser, 10).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '#gbwa > div.gb_Mc > a'
-        ))
-    ).click()
-    WebDriverWait(context.browser, 10).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '#gb23 > span.gb_2'
-        ))
-    ).click()
+    context.email_page.go_to_emails()
 
 @when('I click compose button')
 def step_impl(context):
-    WebDriverWait(context.browser, 10).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '[class="T-I J-J5-Ji T-I-KE L3"]'
-        ))
-    ).click()
-    WebDriverWait(context.browser, 10).until(
-        EC.text_to_be_present_in_element(
-            (By.CSS_SELECTOR, '[class="aYF"]'),
-            'New Message'
-        )
-    )
+    context.email_page.click_compose_btn()
 
 @when('I enter e-mail addres')
 def step_impl(context):
-    context.browser.find_element_by_css_selector(
-        '[name="to"]'
-    ).send_keys('yaqbeush@gmail.com')
+    context.write_email.enter_receiver_mail()
 
 @when('I enter e-mail subject')
 def step_impl(context):
-    context.browser.find_element_by_css_selector(
-        '[name="subjectbox"]'
-    ).send_keys('subjecttest')
+    context.write_email.enter_email_subject()
 
 @when('I enter text')
 def step_impl(context):
-    context.browser.find_element_by_css_selector(
-        '[class="Am Al editable LW-avf"]'
-    ).send_keys('texttest')
+    context.write_email.enter_email_text()
 
 @when('I click send button')
 def step_impl(context):
-    context.browser.find_element_by_css_selector(
-        '[class="T-I J-J5-Ji aoO T-I-atl L3"]'
-    ).click()
-
+    context.write_email.click_send_btn()
+    
 @when('I click cancel button')
 def step_impl(context):
-    context.browser.find_element_by_css_selector(
-        '[class="og T-I-J3"]'
-    ).click()
+    context.write_email.click_cancel_btn()
 
 @when('I attach file')
 def step_impl(context):
-    imagepath = os.path.abspath('testdoc.txt')
-    context.browser.find_element_by_css_selector(
-        '[command="Files"]'
-    ).send_keys('testdoc.txt')
+    context.write_email.attach_file()
 
 @then('I am redirected to gmail homepage, so I can see my emails')
 def step_impl(context):
-    WebDriverWait(context.browser, 20).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '[class="gb_ab gbii"]'
-        ))
-    ).click()
-    WebDriverWait(context.browser, 10).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '[class="gb_Ea gb_Pf gb_Wf gb_De gb_Db"]'
-        ))
-    ).click()
+    context.login.click_menu_btn()
 
 @then('user​ ​is​ informed​ ​about​ wrong​ ​credentials')
 def step_impl(context):
@@ -149,57 +89,9 @@ def step_impl(context):
 
 @then('e-mail is sent')
 def step_impl(context):
-    WebDriverWait(context.browser, 20).until(
-        EC.invisibility_of_element_located(
-            (By.CSS_SELECTOR,'[id=":7y"]'
-        ))
-    )
-    WebDriverWait(context.browser, 20).until(
-        EC.element_to_be_clickable(
-            (By.CSS_SELECTOR,'[href="https://mail.google.com/mail/#sent"]'
-        ))
-    ).click()
-    WebDriverWait(context.browser, 20).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '[id="gbqfq"]'
-        ))
-    ).send_keys('subjecttest')
-    context.browser.find_element_by_css_selector('[class="gbqfi gb_cc"]'
-    ).click()
-    WebDriverWait(context.browser, 20).until(
-        EC.text_to_be_present_in_element(
-            (By.CSS_SELECTOR,'[class="zA yO"]'), 
-            'subjecttest'
-        )
-    )
-    WebDriverWait(context.browser, 20).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '[class="gb_ab gbii"]'
-        ))
-    ).click()
-    WebDriverWait(context.browser, 10).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '[class="gb_Ea gb_Pf gb_Wf gb_De gb_Db"]'
-        ))
-    ).click()
+    context.write_email.email_send()
 
 @then('e-mail is not sent')
 def step_impl(context):
-    WebDriverWait(context.browser, 10).until(
-        EC.text_to_be_present_in_element(
-            (By.CSS_SELECTOR,'[class="bofITb"]'),
-            'Your message has been discarded.'
-        )
-    )
-    WebDriverWait(context.browser, 20).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '[class="gb_ab gbii"]'
-        ))
-    ).click()
-    WebDriverWait(context.browser, 10).until(
-        EC.element_to_be_clickable((
-            By.CSS_SELECTOR, '[class="gb_Ea gb_Pf gb_Wf gb_De gb_Db"]'
-        ))
-    ).click()
-
+    context.write_email.email_not_send()
 
