@@ -1,4 +1,3 @@
-import os
 from behave import *
 
 from selenium import webdriver
