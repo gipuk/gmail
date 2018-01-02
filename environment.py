@@ -3,6 +3,8 @@ from pages.login_page import Login
 from pages.email_page import EmailPage
 from pages.write_email import WriteEmail
 
+import os
+
 def before_all(context):
     context.browser = Browser()
     context.login = Login()

@@ -14,9 +14,7 @@ class WriteEmail(Browser):
         'send_btn': (By.CSS_SELECTOR, '[class="T-I J-J5-Ji aoO T-I-atl L3"]'),
         'cancel_btn':(By.CSS_SELECTOR, '[class="og T-I-J3"]'),
         'attach_btn':(By.CSS_SELECTOR, '[command="Files"]'),
-        'sent_btn': (
-            By.CSS_SELECTOR,
-            '[href="https://mail.google.com/mail/#sent"]'),
+        'sent_tab': (By.CSS_SELECTOR, '[title="Sent Mail"]'),
         'search_field': (By.CSS_SELECTOR, '[id="gbqfq"]'),
         'search_btn': (By.CSS_SELECTOR, '[class="gbqfi gb_cc"]'),
 
@@ -49,7 +47,7 @@ class WriteEmail(Browser):
                 (By.CSS_SELECTOR,'[id=":7y"]'
             ))
         )
-        self.sent_btn.click()
+        self.sent_tab.click()
         self.search_field.send_keys('subjecttest')
         self.search_btn.click()
         WebDriverWait(self, 20).until(
