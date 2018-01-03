@@ -4,4 +4,4 @@ To get started we need:
 2. Install Selenium: pip install selenium==2.53.6
 3. Download latest Chrome browser
 4. Download latest Chromedriver version
-5. To run test, go to feature folder and type "behave name.feature"
+5. To run test, go to feature folder and type "behave features/name.feature"
